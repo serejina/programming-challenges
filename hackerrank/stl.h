@@ -233,3 +233,53 @@ void print_pretty() {
                   << std::endl;
     }
 }
+
+/*
+ * Deque-STL
+ * Given a set of arrays of size N and an integer K, you have to find the maximum integer for each and every contiguous
+ * subarray of size K for each of the given arrays.
+ *
+ * Input Format
+ *  First line of input will contain the number of test cases T.
+ *  For each test case, you will be given the size of array N and the size of subarray to be used K.
+ *  This will be followed by the elements of the array Ai.
+ *
+ * Output Format
+ *  For each of the contiguous subarrays of size K of each array, you have to print the maximum integer.
+ */
+void printKMax(int arr[], int n, int k)
+{
+    std::deque<int> que(k);
+    int i;
+    for (i=0; i < k; i++)
+    {
+        while (!que.empty() && arr[i] >= arr[que.back()]) {que.pop_back();}
+        que.push_back(i);
+    }
+    for (; i < n; i++)
+    {
+        std::cout << arr[que.front()] << " ";
+        while(!que.empty() && que.front() <= i-k) { que.pop_front();}
+        while (!que.empty() && arr[i] >= arr[que.back()]) {que.pop_back();}
+        que.push_back(i);
+    }
+    std::cout << arr[que.front()] << std::endl;
+}
+void deque_stl() {
+    int nc;
+    std::cin >> nc;
+    while(nc>0)
+    {
+        int n, k;
+        std::cin >> n >> k;
+        int arr[n];
+
+        for(int i=0; i < n; i++)
+        {
+            std::cin >> arr[i];
+        }
+        //function
+        printKMax(arr, n, k);
+        nc--;
+    }
+}
